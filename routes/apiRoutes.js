@@ -1,10 +1,13 @@
 const router = require('express').Router();
-const { notes } = require('../db/db');
+const notes = require('../db/db.json');
 
 
 router.get('/notes', (req, res) => {
-  let results = notes;  
-  res.json(results);
+  console.log("/notes GET api Called");
+  console.log("DB has:")
+  const logMe = JSON.stringify(notes);
+  console.log(logMe);
+  res.json(notes);  
 });
 
 
