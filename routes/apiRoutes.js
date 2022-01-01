@@ -1,26 +1,46 @@
 const router = require('express').Router();
 const notes = require('../db/db.json');
+const fs = require('fs');
+const { response } = require('express');
+
 
 
 router.get('/notes', (req, res) => {
-  console.log("/notes GET api Called");
-  console.log("DB has:")
-  const logMe = JSON.stringify(notes);
-  console.log(logMe);
-  res.json(notes);  
+  
+  res.json(notes);
+
 });
 
 
-// router.post('/notes', (req, res) => {
-//   // set id based on what the next index of the array will be
-//   req.body.id = animals.length.toString();
+router.post('/notes', (req, res) => {
 
-//   if (!validateAnimal(req.body)) {
-//     res.status(400).send('The animal is not properly formatted.');
-//   } else {
-//     const animal = createNewAnimal(req.body, animals);
-//     res.json(animal);
-//   }
-// });
+  const pushMe = req.body;
+  notes.push(pushMe);
+  saveNotes();
+  res
+    .status(200)
+    .json({
+      status: 'OK',
+    });
+
+  // fs.writeFile('./db/db.json', JSON.stringify(notes), err => {
+  //   if (err) {
+  //     console.log("error saving file in /notes POST api");
+  //     throw(err);      
+  //   }
+  // });  
+
+});
+
+function saveNotes() {
+
+  fs.writeFile('./db/db.json', JSON.stringify(notes), err => {
+    if (err) {
+      console.log("error saving file in /notes POST api");
+      throw(err);      
+    }
+  });
+
+}
 
 module.exports = router;
