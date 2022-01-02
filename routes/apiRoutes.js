@@ -15,20 +15,14 @@ router.get('/notes', (req, res) => {
 router.post('/notes', (req, res) => {
 
   const pushMe = req.body;
+  pushMe.id = notes.length + 1;
   notes.push(pushMe);
   saveNotes();
   res
     .status(200)
     .json({
       status: 'OK',
-    });
-
-  // fs.writeFile('./db/db.json', JSON.stringify(notes), err => {
-  //   if (err) {
-  //     console.log("error saving file in /notes POST api");
-  //     throw(err);      
-  //   }
-  // });  
+    }); 
 
 });
 
@@ -42,5 +36,6 @@ function saveNotes() {
   });
 
 }
+
 
 module.exports = router;
